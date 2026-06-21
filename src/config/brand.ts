@@ -25,7 +25,7 @@ export const brand = {
   },
 
   legal: {
-    entity: 'ИП Львов В.С.',
+    entity: 'ИП Львов В.В.',
     inn: '590699729804',
     year: new Date().getFullYear(),
   },
