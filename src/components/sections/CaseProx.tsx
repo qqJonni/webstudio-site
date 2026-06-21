@@ -3,13 +3,59 @@ import { brand } from '../../config/brand';
 import { Button } from '../ui/Button';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
+const placeholders = [
+  { label: 'Главная страница', sublabel: 'Desktop · 3D-визуализация объектов', icon: 'desktop' },
+  { label: 'Мобильная версия', sublabel: 'Адаптивный дизайн · 375px', icon: 'mobile' },
+  { label: 'Страница проекта', sublabel: 'Детальная карточка объекта', icon: 'detail' },
+];
+
+function CasePlaceholder({ label, sublabel, icon, featured }: { label: string; sublabel: string; icon: string; featured: boolean }) {
+  return (
+    <div className={`w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-accent/[0.06] via-bg-card to-bg-card relative overflow-hidden`}>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{
+        backgroundImage: 'linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+      }} />
+
+      {/* Icon */}
+      <div className={`mb-4 ${featured ? 'w-16 h-16' : 'w-12 h-12'} rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center`}>
+        {icon === 'desktop' && (
+          <svg className="w-6 h-6 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg>
+        )}
+        {icon === 'mobile' && (
+          <svg className="w-6 h-6 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="5" y="2" width="14" height="20" rx="2" />
+            <path d="M12 18h.01" />
+          </svg>
+        )}
+        {icon === 'detail' && (
+          <svg className="w-6 h-6 text-accent/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 9h18M9 21V9" />
+          </svg>
+        )}
+      </div>
+
+      <span className="text-text-primary/70 text-sm font-medium mb-1">{label}</span>
+      <span className="text-text-muted/40 text-xs">{sublabel}</span>
+
+      {/* Corner accent */}
+      <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-accent/30" />
+      <div className="absolute bottom-3 left-3 text-[10px] text-text-muted/20 font-mono">ПРОКС</div>
+    </div>
+  );
+}
+
 export function CaseProx() {
   const ref = useScrollAnimation();
   const c = brand.caseProx;
 
   return (
     <section id="cases" ref={ref} className="py-24 md:py-36 relative overflow-hidden">
-      {/* Background gradient */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-accent/5 rounded-full blur-[150px]" />
       </div>
@@ -66,28 +112,15 @@ export function CaseProx() {
           </div>
 
           <div className="space-y-4">
-            {c.images.map((img, i) => (
+            {placeholders.map((p, i) => (
               <motion.div
                 key={i}
-                className={`rounded-2xl overflow-hidden border border-border/50 bg-bg-card ${i === 0 ? 'aspect-[16/10] glow' : 'aspect-video'} flex items-center justify-center relative group`}
+                className={`rounded-2xl overflow-hidden border border-border/50 ${i === 0 ? 'aspect-[16/10] glow border-accent/20' : 'aspect-video'} relative group`}
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                <img
-                  src={img}
-                  alt={`${c.title} — скриншот ${i + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'w-full h-full flex items-center justify-center text-text-muted/40 text-sm absolute inset-0';
-                    placeholder.innerHTML = `<div class="text-center"><div class="text-4xl mb-2 opacity-20">📷</div><div>Скриншот ${i + 1}</div></div>`;
-                    target.parentElement?.appendChild(placeholder);
-                  }}
-                />
+                <CasePlaceholder label={p.label} sublabel={p.sublabel} icon={p.icon} featured={i === 0} />
               </motion.div>
             ))}
           </div>

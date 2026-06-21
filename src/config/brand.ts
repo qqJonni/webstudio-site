@@ -18,15 +18,15 @@ export const brand = {
   },
 
   contacts: {
-    phone: '+7 (XXX) XXX-XX-XX',
-    email: 'hello@lvov.studio',
-    telegram: '@lvov_studio',
-    telegramLink: 'https://t.me/lvov_studio',
+    phone: '+7 (8982) 435-72-07',
+    email: 'tepliy_shov@mail.ru',
+    telegram: '@lvovvaleriy',
+    telegramLink: 'https://t.me/lvovvaleriy',
   },
 
   legal: {
     entity: 'ИП Львов В.С.',
-    inn: 'XXX XXX XXX XX',
+    inn: '590699729804',
     year: new Date().getFullYear(),
   },
 
