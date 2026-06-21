@@ -18,7 +18,7 @@ export const brand = {
   },
 
   contacts: {
-    phone: '+7 (8982) 435-72-07',
+    phone: '+7 (982) 435-72-07',
     email: 'tepliy_shov@mail.ru',
     telegram: '@lvovvaleriy',
     telegramLink: 'https://t.me/lvovvaleriy',
