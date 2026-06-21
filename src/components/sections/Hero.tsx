@@ -31,8 +31,6 @@ function useIsMobile() {
 export function Hero() {
   const webgl = hasWebGL();
   const isMobile = useIsMobile();
-  const show3D = webgl && !isMobile;
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient glow */}
@@ -42,9 +40,9 @@ export function Hero() {
         <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-indigo-500/5 rounded-full blur-[80px]" />
       </div>
 
-      {show3D ? (
+      {webgl ? (
         <Suspense fallback={<WebGLFallback />}>
-          <HeroScene />
+          <HeroScene mobile={isMobile} />
         </Suspense>
       ) : (
         <WebGLFallback />

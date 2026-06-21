@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-function TorusKnotMesh() {
+function TorusKnotMesh({ mobile }: { mobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
@@ -28,10 +28,13 @@ function TorusKnotMesh() {
     meshRef.current.rotation.y = mouseRef.current.x + state.clock.elapsedTime * 0.15;
   });
 
+  const segments = mobile ? 100 : 200;
+  const radialSegments = mobile ? 16 : 32;
+
   return (
     <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
       <mesh ref={meshRef}>
-        <torusKnotGeometry args={[1, 0.35, 200, 32, 2, 3]} />
+        <torusKnotGeometry args={[1, 0.35, segments, radialSegments, 2, 3]} />
         <shaderMaterial
           uniforms={uniforms}
           wireframe
@@ -67,16 +70,16 @@ function TorusKnotMesh() {
   );
 }
 
-export function HeroScene() {
+export function HeroScene({ mobile = false }: { mobile?: boolean }) {
   return (
     <div className="absolute inset-0 z-0">
       <Canvas
-        camera={{ position: [0, 0, 4], fov: 50 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, mobile ? 4.5 : 4], fov: 50 }}
+        dpr={mobile ? [1, 1] : [1, 1.5]}
+        gl={{ antialias: !mobile, alpha: true, powerPreference: 'high-performance' }}
       >
         <ambientLight intensity={0.5} />
-        <TorusKnotMesh />
+        <TorusKnotMesh mobile={mobile} />
       </Canvas>
     </div>
   );
