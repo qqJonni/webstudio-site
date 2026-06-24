@@ -1,55 +1,27 @@
-import { motion } from 'framer-motion';
 import { SectionHeading } from '../ui/SectionHeading';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 const points = [
-  {
-    title: 'Результат на экране',
-    description: 'Показываем демо под ваш бизнес до договора. Вы видите, за что платите.',
-    icon: '◎',
-  },
-  {
-    title: 'Скорость',
-    description: 'Готовый продукт за дни, а не месяцы. Модульная сборка + современные технологии.',
-    icon: '⚡',
-  },
-  {
-    title: 'Понимание бизнеса',
-    description: 'Мы из реального сектора. Говорим на языке ROI, а не «креатива».',
-    icon: '◆',
-  },
-  {
-    title: '3D-уровень',
-    description: 'Технологии, которые локальные студии не предлагают. Ваш сайт — на голову выше.',
-    icon: '△',
-  },
+  { title: 'Результат на экране', description: 'Показываем демо под ваш бизнес до договора. Вы видите, за что платите.' },
+  { title: 'Скорость', description: 'Готовый продукт за дни, а не месяцы. Модульная сборка + современные технологии.' },
+  { title: 'Понимание бизнеса', description: 'Мы из реального сектора. Говорим на языке ROI, а не «креатива».' },
+  { title: '3D-уровень', description: 'Технологии, которые локальные студии не предлагают. Ваш сайт — на голову выше.' },
 ];
 
 export function About() {
   const ref = useScrollAnimation();
 
   return (
-    <section ref={ref} className="py-24 md:py-36 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeading
-          label="О студии"
-          title="Почему мы"
-          subtitle="Премиальный результат без лишних обещаний"
-        />
+    <section ref={ref} className="py-24 md:py-40">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+        <SectionHeading label="О студии" title="Почему мы" />
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="mt-16 grid md:grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
           {points.map((point) => (
-            <motion.div
-              key={point.title}
-              className="gsap-reveal group p-8 rounded-2xl bg-bg-card/40 border border-border/30 hover:border-accent/20 transition-all duration-300"
-              whileHover={{ y: -2 }}
-            >
-              <span className="text-accent text-2xl mb-4 inline-block opacity-60 group-hover:opacity-100 transition-opacity">
-                {point.icon}
-              </span>
-              <h3 className="text-lg font-bold mb-2">{point.title}</h3>
-              <p className="text-text-muted leading-relaxed">{point.description}</p>
-            </motion.div>
+            <div key={point.title} className="gsap-reveal bg-bg p-8 md:p-10">
+              <h3 className="text-lg font-bold mb-3">{point.title}</h3>
+              <p className="text-text-muted font-light leading-relaxed">{point.description}</p>
+            </div>
           ))}
         </div>
       </div>

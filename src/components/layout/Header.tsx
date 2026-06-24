@@ -1,32 +1,35 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { brand } from '../../config/brand';
-import { Button } from '../ui/Button';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-bg/80 border-b border-border/50">
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold tracking-tight">
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <nav className="max-w-[1400px] mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+        <a href="#" className="text-lg font-bold tracking-tight text-text-primary">
           {brand.name}
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           {brand.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-text-muted hover:text-text-primary transition-colors"
+              className="text-sm text-text-muted hover:text-text-primary transition-colors duration-300"
             >
               {item.label}
             </a>
           ))}
-          <Button href="#contact" className="!py-2.5 !px-6 !text-sm">
-            Обсудить проект
-          </Button>
         </div>
+
+        <a
+          href="#contact"
+          className="hidden md:inline-flex text-sm font-semibold text-text-dark bg-accent hover:bg-accent-hover px-6 py-3 rounded-lg transition-colors duration-300"
+        >
+          Обсудить проект
+        </a>
 
         <button
           type="button"
@@ -46,22 +49,26 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-bg/95 backdrop-blur-xl border-b border-border overflow-hidden"
+            className="md:hidden bg-bg border-b border-border overflow-hidden"
           >
-            <div className="px-6 py-6 flex flex-col gap-4">
+            <div className="px-6 py-8 flex flex-col gap-6">
               {brand.nav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-lg text-text-muted hover:text-text-primary transition-colors"
+                  className="text-2xl font-light text-text-muted hover:text-text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
                 </a>
               ))}
-              <Button href="#contact" className="mt-2">
+              <a
+                href="#contact"
+                className="inline-flex justify-center text-base font-semibold text-text-dark bg-accent px-6 py-4 rounded-lg mt-4"
+                onClick={() => setIsOpen(false)}
+              >
                 Обсудить проект
-              </Button>
+              </a>
             </div>
           </motion.div>
         )}

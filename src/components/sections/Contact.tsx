@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { brand } from '../../config/brand';
-import { Button } from '../ui/Button';
-import { SectionHeading } from '../ui/SectionHeading';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 interface FormData {
@@ -34,105 +32,73 @@ export function Contact() {
   }
 
   const inputClass =
-    'w-full bg-bg border border-border rounded-xl px-5 py-4 text-text-primary placeholder:text-text-muted/40 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-all duration-300';
+    'w-full bg-transparent border-b border-border px-0 py-4 text-text-dark placeholder:text-text-dark/40 focus:outline-none focus:border-text-dark transition-colors duration-300 text-lg font-light';
 
   return (
-    <section id="contact" ref={ref} className="py-24 md:py-36 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="contact" ref={ref} className="py-24 md:py-40 bg-bg-light text-text-dark">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+          <div>
+            <p className="gsap-reveal text-accent text-sm font-semibold tracking-widest uppercase mb-6" style={{ color: '#222831' }}>
+              Контакты
+            </p>
+            <h2 className="gsap-reveal text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-text-dark">
+              Хотите обсудить задачу?
+            </h2>
 
-      <div className="max-w-5xl mx-auto px-6 relative">
-        <SectionHeading
-          label="Контакты"
-          title="Обсудить проект"
-          subtitle="Оставьте заявку — ответим в течение нескольких часов"
-        />
+            <div className="gsap-reveal mt-12 space-y-8">
+              {[
+                { label: 'Телефон', value: brand.contacts.phone, href: `tel:${brand.contacts.phone.replace(/\D/g, '')}` },
+                { label: 'Почта', value: brand.contacts.email, href: `mailto:${brand.contacts.email}` },
+                { label: 'Telegram', value: brand.contacts.telegram, href: brand.contacts.telegramLink },
+              ].map((item) => (
+                <div key={item.label}>
+                  <p className="text-text-dark/40 text-sm mb-1">{item.label}</p>
+                  <a href={item.href} className="text-text-dark text-lg hover:opacity-60 transition-opacity">
+                    {item.value}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
           <div className="gsap-reveal">
             {submitted ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-bg-card border border-accent/30 rounded-2xl p-12 text-center glow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-start justify-center h-full"
               >
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-accent" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Заявка отправлена</h3>
-                <p className="text-text-muted">Свяжемся с вами в ближайшее время</p>
+                <h3 className="text-3xl font-bold text-text-dark mb-3">Заявка отправлена</h3>
+                <p className="text-text-dark/60 font-light">Свяжемся с вами в ближайшее время</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-2">
                 <div>
-                  <input
-                    type="text"
-                    placeholder="Имя *"
-                    value={form.name}
+                  <input type="text" placeholder="Имя *" value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className={`${inputClass} ${errors.name ? '!border-red-500/50' : ''}`}
-                  />
-                  {errors.name && <p className="text-red-400 text-sm mt-2">{errors.name}</p>}
+                    className={`${inputClass} ${errors.name ? '!border-red-500' : ''}`} />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Компания"
-                  value={form.company}
+                <input type="text" placeholder="Компания" value={form.company}
                   onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  className={inputClass}
-                />
+                  className={inputClass} />
                 <div>
-                  <input
-                    type="text"
-                    placeholder="Телефон или Telegram *"
-                    value={form.contact}
+                  <input type="text" placeholder="Телефон или Telegram *" value={form.contact}
                     onChange={(e) => setForm({ ...form, contact: e.target.value })}
-                    className={`${inputClass} ${errors.contact ? '!border-red-500/50' : ''}`}
-                  />
-                  {errors.contact && <p className="text-red-400 text-sm mt-2">{errors.contact}</p>}
+                    className={`${inputClass} ${errors.contact ? '!border-red-500' : ''}`} />
                 </div>
-                <textarea
-                  placeholder="Расскажите о задаче"
-                  value={form.task}
+                <textarea placeholder="Расскажите о задаче" value={form.task}
                   onChange={(e) => setForm({ ...form, task: e.target.value })}
-                  rows={4}
-                  className={`${inputClass} resize-none`}
-                />
-                <Button type="submit" className="w-full !py-4 !text-base">
+                  rows={3} className={`${inputClass} resize-none`} />
+
+                <button
+                  type="submit"
+                  className="mt-8 inline-flex items-center justify-center bg-text-dark text-white font-semibold px-8 py-4 rounded-lg hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+                >
                   Отправить заявку
-                </Button>
-                <p className="text-text-muted/40 text-xs text-center">
-                  Нажимая «Отправить», вы соглашаетесь на обработку данных
-                </p>
+                </button>
               </form>
             )}
-          </div>
-
-          <div className="gsap-reveal space-y-8">
-            {[
-              { label: 'Телефон', value: brand.contacts.phone, href: `tel:${brand.contacts.phone.replace(/\D/g, '')}` },
-              { label: 'Email', value: brand.contacts.email, href: `mailto:${brand.contacts.email}` },
-              { label: 'Telegram', value: brand.contacts.telegram, href: brand.contacts.telegramLink },
-            ].map((item) => (
-              <div key={item.label} className="group">
-                <h3 className="text-sm font-semibold text-text-muted/60 uppercase tracking-wider mb-2">{item.label}</h3>
-                <a
-                  href={item.href}
-                  className="text-xl md:text-2xl font-medium text-text-primary hover:text-accent transition-colors"
-                >
-                  {item.value}
-                </a>
-              </div>
-            ))}
-
-            <div className="pt-8 border-t border-border/50">
-              <p className="text-text-muted leading-relaxed">
-                Напишите напрямую — обсудим задачу, покажем демо под ваш бизнес.
-                <span className="text-accent font-medium"> Бесплатно, без обязательств.</span>
-              </p>
-            </div>
           </div>
         </div>
       </div>

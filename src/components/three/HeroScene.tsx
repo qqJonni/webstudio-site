@@ -10,8 +10,8 @@ function TorusKnotMesh({ mobile }: { mobile: boolean }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color('#3B82F6') },
-      uColor2: { value: new THREE.Color('#1E3A5F') },
+      uColor: { value: new THREE.Color('#C8FF00') },
+      uColor2: { value: new THREE.Color('#3A4250') },
     }),
     []
   );
@@ -21,19 +21,19 @@ function TorusKnotMesh({ mobile }: { mobile: boolean }) {
     uniforms.uTime.value = state.clock.elapsedTime;
 
     const pointer = state.pointer;
-    mouseRef.current.x += (pointer.x * 0.3 - mouseRef.current.x) * 0.05;
-    mouseRef.current.y += (pointer.y * 0.2 - mouseRef.current.y) * 0.05;
+    mouseRef.current.x += (pointer.x * 0.2 - mouseRef.current.x) * 0.03;
+    mouseRef.current.y += (pointer.y * 0.15 - mouseRef.current.y) * 0.03;
 
-    meshRef.current.rotation.x = mouseRef.current.y + state.clock.elapsedTime * 0.1;
-    meshRef.current.rotation.y = mouseRef.current.x + state.clock.elapsedTime * 0.15;
+    meshRef.current.rotation.x = mouseRef.current.y + state.clock.elapsedTime * 0.08;
+    meshRef.current.rotation.y = mouseRef.current.x + state.clock.elapsedTime * 0.12;
   });
 
   const segments = mobile ? 100 : 200;
   const radialSegments = mobile ? 16 : 32;
 
   return (
-    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={meshRef}>
+    <Float speed={1} rotationIntensity={0.2} floatIntensity={0.3}>
+      <mesh ref={meshRef} position={[1.5, 0, 0]} scale={mobile ? 0.8 : 1}>
         <torusKnotGeometry args={[1, 0.35, segments, radialSegments, 2, 3]} />
         <shaderMaterial
           uniforms={uniforms}
@@ -46,7 +46,7 @@ function TorusKnotMesh({ mobile }: { mobile: boolean }) {
             void main() {
               vPosition = position;
               vec3 pos = position;
-              float noise = sin(pos.x * 3.0 + uTime) * cos(pos.y * 3.0 + uTime * 0.7) * 0.08;
+              float noise = sin(pos.x * 3.0 + uTime) * cos(pos.y * 3.0 + uTime * 0.7) * 0.06;
               pos += normal * noise;
               vNoise = noise;
               gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -59,8 +59,8 @@ function TorusKnotMesh({ mobile }: { mobile: boolean }) {
             varying float vNoise;
             void main() {
               float gradient = (vPosition.y + 1.5) / 3.0;
-              vec3 color = mix(uColor2, uColor, gradient + vNoise * 2.0);
-              float alpha = 0.4 + abs(vNoise) * 4.0;
+              vec3 color = mix(uColor2, uColor, gradient * 0.4 + vNoise * 2.0);
+              float alpha = 0.15 + abs(vNoise) * 3.0;
               gl_FragColor = vec4(color, alpha);
             }
           `}
@@ -74,11 +74,10 @@ export function HeroScene({ mobile = false }: { mobile?: boolean }) {
   return (
     <div className="absolute inset-0 z-0">
       <Canvas
-        camera={{ position: [0, 0, mobile ? 4.5 : 4], fov: 50 }}
+        camera={{ position: [0, 0, 4], fov: 50 }}
         dpr={mobile ? [1, 1] : [1, 1.5]}
         gl={{ antialias: !mobile, alpha: true, powerPreference: 'high-performance' }}
       >
-        <ambientLight intensity={0.5} />
         <TorusKnotMesh mobile={mobile} />
       </Canvas>
     </div>

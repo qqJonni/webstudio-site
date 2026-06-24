@@ -6,15 +6,17 @@ export const brand = {
   url: 'https://lvov.studio',
 
   colors: {
-    accent: '#3B82F6',
-    accentHover: '#2563EB',
-    accentLight: '#60A5FA',
-    bg: '#09090B',
-    bgCard: '#18181B',
-    bgCardHover: '#1F1F23',
-    text: '#FAFAFA',
-    textMuted: '#A1A1AA',
-    border: '#27272A',
+    accent: '#C8FF00',
+    accentHover: '#B8EE00',
+    accentLight: '#D4FF33',
+    bg: '#222831',
+    bgCard: '#2C3440',
+    bgCardHover: '#343E4D',
+    bgLight: '#F5F5F0',
+    text: '#FFFFFF',
+    textMuted: '#8B95A5',
+    textDark: '#222831',
+    border: '#3A4250',
   },
 
   contacts: {
